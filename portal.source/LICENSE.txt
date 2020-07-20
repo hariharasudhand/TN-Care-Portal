@@ -1,0 +1,4 @@
+Copyright @ Weeroda Technologies Pvt
+
+This software uses various open source softwares.
+

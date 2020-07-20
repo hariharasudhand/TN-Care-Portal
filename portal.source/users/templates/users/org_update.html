@@ -1,0 +1,55 @@
+{% extends "app/base_site.html" %}
+{% load crispy_forms_tags %}
+{% block title %} Update Organization {% endblock title %}
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+        {% if messages %}
+        {% for message in messages%}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade in" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+              </button>
+              <strong>{{ message }}</strong>
+            </div>
+        {% endfor %}
+      {% endif %}
+      <div class="row">
+        <div class="col-md-3 col-sm-3 col-xs-3">
+          &nbsp;
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Update {{org_obj.org_name}} Details  </h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <br />
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="org" value="{{org_id}}">
+                  <fieldset class="form-group">
+                      {{ form|crispy }}
+                  </fieldset>
+                  <div class="form-group">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+                      <button type="submit" class="btn btn-success">Update</button>
+                    </div>
+                  </div>
+
+                  <div class="separator">
+                    <div class="clearfix"></div>
+                    <br />
+                  </div>
+               </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

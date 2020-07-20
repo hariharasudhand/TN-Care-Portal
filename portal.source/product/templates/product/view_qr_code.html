@@ -1,0 +1,113 @@
+{% extends "app/base_site.html" %}
+{% load crispy_forms_tags %}
+{% load qr_code %}
+
+{% block title %} ProSync - Add Item {% endblock title %}
+
+{% block stylesheets %}
+{{ block.super }}
+<link href="/static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="/static/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+<link href="/static/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+<link href="/static/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+<link href="/static/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Batch Event</h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>QR Code <small>List of Items QR Code for a batch</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="form-group col-md-4 mb-0">
+                            <label class="requiredField">Batch Name</label>
+                            <h5><i>{{ bat.batch_name }}</i></h5>
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            <label class="requiredField">Product Name</label>
+                            <h5><i>{{ prod.pro_name }}</i></h5>
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            <label class="requiredField">Batch ID</label>
+                            <h5><i>{{ bat.id }}</i></h5>
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            <label class="requiredField">Release Date</label>
+                            <h5><i>{{ bat.release_date }}</i></h5>
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            <label class="requiredField">Expiry Date</label>
+                            <h5><i>{{ bat.exp_date }}</i></h5>
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            <label class="requiredField">Batch Date</label>
+                            <h5><i>{{ bat.batch_date }}</i></h5>
+                        </div>
+
+                        <table id="datatable-buttons" class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <td>QR</td><td>C</td><td>O</td><td>D</td><td>E</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                            {% for item in list %}
+                            <td>
+                                {% qr_from_text item size=5 error_correction='M' version=5 %}
+                            </td>
+                                {% if forloop.counter|divisibleby:5 %}
+                                    </tr><tr>
+                                {% endif %}
+                            {% endfor %}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+{{ block.super}}
+<!-- jQuery Smart Wizard -->
+<script src="/static/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+<!-- Datatables -->
+<script src="/static/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/static/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="/static/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/static/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="/static/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="/static/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="/static/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="/static/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="/static/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="/static/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="/static/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+<script src="/static/vendors/jszip/dist/jszip.min.js"></script>
+<script src="/static/vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="/static/vendors/pdfmake/build/vfs_fonts.js"></script>
+
+{% endblock javascripts %}
