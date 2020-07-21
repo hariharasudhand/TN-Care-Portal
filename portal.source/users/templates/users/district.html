@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 {% load crispy_forms_tags %}
-{% block title %} User Groups{% endblock title %}
+{% block title %} {{screen_name}} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -33,24 +33,39 @@
           <div class="x_panel">
             <div class="x_title">
                 {% if is_update %}
-                    <h2>Update Groups</h2>
+                    <h2>Update {{screen_name}}</h2>
                 {% else %}
-                    <h2>Add Groups</h2>
+                    <h2>Add {{screen_name}}</h2>
                 {% endif %}
 
                 <ul class="nav navbar-right panel_toolbox">
-                  <li><a href="{% url 'groups' %}"><i class="fa fa-plus"></i></a></li>
+                  <li><a href="{% url 'district' %}"><i class="fa fa-plus"></i></a></li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
               <br />
-               <form method="post">
+                <form method="post">
                   {% csrf_token %}
-                   <input type="hidden" name="org" value="{{org_id}}">
-                  {% crispy form %}
-                  <div class="clearfix"></div>
+                  <fieldset class="form-group">
+                      {{ form|crispy }}
+                  </fieldset>
+                  <div class="form-group">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+                      <button type="submit" class="btn btn-success">
+                          {% if is_update %}
+                            Update {{screen_name}}
+                          {% else %}
+                            Add {{screen_name}}
+                          {% endif %}
+                      </button>
+                    </div>
+                  </div>
 
+                  <div class="separator">
+                    <div class="clearfix"></div>
+                    <br />
+                  </div>
                </form>
             </div>
           </div>
@@ -59,13 +74,12 @@
           <div class="col-md-6 col-sm-6 col-xs-6">
             <div class="x_panel">
                 <div>
-                    <h2>Groups List</h2>
+                    <h2>{{screen_name}} List</h2>
                 </div>
               <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                   <tr>
-                    <th>Group Name</th>
-                    <th>Role</th>
+                    <th>{{screen_name}} Name</th>
                     <th>Edit</th>
                     <th>Delete</th>
                   </tr>
@@ -75,13 +89,12 @@
                     {% for mod in model %}
                         <input type="hidden" name="id" value="{{ mod.id }}"
                       <tr>
-                        <td>{{mod.group_name}}</td>
-                        <td>{{mod.role_permission}}</td>
+                        <td>{{mod.district_name}}</td>
                         <td>
-                            <a href="{% url 'groups-update' mod.id %}">
+                            <a href="{% url 'district-update' mod.id %}">
                             <i class="fa fa-edit"></i></a></td>
                         <td>
-                            <a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'groups-delete' mod.id %}">
+                            <a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'district-delete' mod.id %}">
                             <i class="fa fa-close"></i></a></td>
                       </tr>
                     {% endfor %}

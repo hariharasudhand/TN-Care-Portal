@@ -29,11 +29,11 @@
           <div class="clearfix"></div>
       </div>
       <div class="row">
-        <div class="col-md-4 col-sm-4 col-xs-4">
+        <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3">
           <div class="x_panel">
             <div class="x_title">
               {% if is_update %}
-                    <h2>Update User</h2>
+                    <h2>Update User ({{user.username}})</h2>
                 {% else %}
                     <h2>Add New User</h2>
                 {% endif %}
@@ -44,17 +44,15 @@
             </div>
             <div class="x_content">
               <br />
-                <form method="post" id="userForm" data-bmc-url="{% url 'ajax_load_bmc' %}" data-zone-url="{% url 'ajax_load_zone' %}" novalidate>
+                <form method="post">
                   {% csrf_token %}
                   <input type="hidden" name="org" value="{{org_id}}">
                   <fieldset class="form-group">
-                      {% if is_update == False %}
                       {{ form|crispy }}
-                      {% endif %}
-                      {{ p_form|crispy }}
+<!--                      {{ p_form|crispy }}-->
                   </fieldset>
                   <div class="form-group">
-                    <div class="col-md-3 col-sm-3 col-md-offset-3">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
                       <button type="submit" class="btn btn-success">
                           {% if is_update %}
                             Update User
@@ -70,44 +68,11 @@
                     <br />
                   </div>
                </form>
-                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-                  <script>
-                    $("#id_district").change(function () {
-                      var url = $("#userForm").attr("data-zone-url");
-                      var districtId = $(this).val();
-
-                      $.ajax({
-                        url: url,
-                        data: {
-                          'district': districtId
-                        },
-                        success: function (data) {
-                          $("#id_zone").html(data);
-                        }
-                      });
-                    });
-                  </script>
-                  <script>
-                    $("#id_zone").change(function () {
-                      var url = $("#userForm").attr("data-bmc-url");  // get the url of the `load_bmcs` view
-                      var zoneId = $(this).val();  // get the selected zone ID from the HTML input
-
-                      $.ajax({                       // initialize an AJAX request
-                        url: url,                    // set the url of the request (= localhost:8000/users/ajax/load-bmcs/)
-                        data: {
-                          'zone': zoneId       // add the zone id to the GET parameters
-                        },
-                        success: function (data) {   // `data` is the return of the `load_bmcs` view function
-                          $("#id_bmc").html(data);  // replace the contents of the bmc input with the data that came from the server
-                        }
-                      });
-                    });
-                  </script>
-
             </div>
           </div>
         </div>
-        <div class="col-md-8 col-sm-8 col-xs-8">
+
+        <div class="x_content col-md-6 col-sm-6 col-xs-6">
             <div class="x_panel">
                 <div>
                     <h2>User List</h2>

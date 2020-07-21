@@ -1,0 +1,68 @@
+            <div class="page-title">
+                <div>
+                  {% if screen_name == "Groups" %}
+                  <button type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span> <b>Group</b>
+                  </button>
+                  {% else %}
+                  <a href="{%url 'groups' %}">
+                    <button type="button" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span> <b>Group</b>
+                    </button></a>
+                  {% endif %}
+                  {% if screen_name == "Roles" %}
+                    <button type="button" class="btn btn-default">
+                      <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> <b> Roles </b>
+                    </button>
+                  {% else %}
+                  <a href="{%url 'roles' %}">
+                    <button type="button" class="btn btn-primary">
+                      <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> <b> Roles </b>
+                    </button>
+                  {% endif %}
+                  {% if screen_name == "Profile" %}
+                    <button type="button" class="btn btn-default">
+                      <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <b> User </b>
+                    </button>
+                  {% else %}
+                  <a href="{%url 'register' %}">
+                    <button type="button" class="btn btn-primary">
+                      <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <b> User </b>
+                    </button>
+                  </a>
+                  {% endif %}
+                  {% if screen_name == "District"%}
+                    <button type="button" class="btn btn-default">
+                      <span class="glyphicon glyphicon-home" aria-hidden="true"></span> <b> Districts </b>
+                    </button>
+                  {% else %}
+                  <a href="{% url 'district' %}">
+                    <button type="button" class="btn btn-primary">
+                      <span class="glyphicon glyphicon-home" aria-hidden="true"></span> <b> Districts </b>
+                    </button>
+                  </a>
+                  {% endif %}
+                  {% if screen_name == "Zone"%}
+                    <button type="button" class="btn btn-default">
+                      <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> <b> Zones </b>
+                    </button>
+                  {% else %}
+                  <a href="{% url 'zone' %}">
+                    <button type="button" class="btn btn-primary">
+                      <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> <b> Zones </b>
+                    </button>
+                  </a>
+                  {% endif %}
+                  {% if screen_name == "BMC/Hospital"%}
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-bed" aria-hidden="true"></span> <b> BMC/ Hospitals </b>
+                      </button>
+                  {% else %}
+                    <a href="{% url 'bmc' %}">
+                      <button type="button" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-bed" aria-hidden="true"></span> <b> BMC/ Hospitals </b>
+                      </button>
+                     </a>
+                  {% endif %}
+                </div>
+            </div>

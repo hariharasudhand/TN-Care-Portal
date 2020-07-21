@@ -7,7 +7,8 @@ from users.views import get_roles
 def index(request):
     context = {}
     logout(request)
-    template = loader.get_template('app/index.html')
+    # template = loader.get_template('app/index.html')
+    template = loader.get_template('users/login.html')
     return HttpResponse(template.render(context, request))
 
 

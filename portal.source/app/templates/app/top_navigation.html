@@ -1,12 +1,10 @@
 <div class="nav_menu">
   <nav>
-    {% if user.is_authenticated %}
     <div class="nav toggle">
       <a id="menu_toggle"><i class="fa fa-bars"></i></a>
     </div>
-{% endif %}
-    <ul class="nav navbar-nav navbar-right">
 
+    <ul class="nav navbar-nav navbar-right">
       {% if user.is_authenticated %}
             <li class="">
             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">

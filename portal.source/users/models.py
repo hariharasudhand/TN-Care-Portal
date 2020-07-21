@@ -6,8 +6,8 @@ from django.db.models.signals import post_save
 from multiselectfield import MultiSelectField
 from PIL import Image
 
-MODULES = (('Admin', 'Admin'), ('Product', 'Product'), ('Billing', 'Billing'),
-           ('Batch', 'Batch'), ('Support', 'Support'), ('Offer', 'Offer'))
+MODULES = (('Admin', 'Admin'), ('User', 'User'), ('Setting', 'Setting'),
+           ('Question', 'Questions'))
 ORG_TYPE = (('Manufacturer', 'Manufacturer'), ('SuperStockist', 'Super Stockist'),
             ('Stockist', 'Stockist'), ('Retailer', 'Retailer'))
 
@@ -51,6 +51,35 @@ class Groups(models.Model):
     def __str__(self):
         return self.group_name
 
+class District(models.Model):
+    district_name = models.CharField(max_length=25, default='')
+    status = models.CharField(max_length=25, default='ACTIVE')
+    date_added = models.DateField(auto_now_add=True)
+    date_updated = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.district_name
+
+class Zone(models.Model):
+    zone_name = models.CharField(max_length=25, default='')
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
+    status = models.CharField(max_length=25, default='ACTIVE')
+    date_added = models.DateField(auto_now_add=True)
+    date_updated = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.zone_name
+
+class BMC(models.Model):
+    bmc_name = models.CharField(max_length=10, null=True, blank=True)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
+    zone = models.ForeignKey(Zone, on_delete=models.SET_NULL, null=True)
+    status = models.CharField(max_length=25, default='ACTIVE')
+    date_added = models.DateField(auto_now_add=True)
+    date_updated = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.bmc_name
 
 class Profile(models.Model):
     # email = models.CharField(max_length=50, null=False, blank=False, default='')
@@ -60,6 +89,9 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     user_token = models.CharField(max_length=80, null=True, blank=True)
     group = models.ForeignKey(Groups, on_delete=models.SET_NULL, null=True)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
+    zone = models.ForeignKey(Zone, on_delete=models.SET_NULL, null=True)
+    bmc = models.ForeignKey(BMC, on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=20, null=False, blank=False, default='INACTIVE')
     date_added = models.DateField(auto_now_add=True)
     date_updated = models.DateField(auto_now=True)

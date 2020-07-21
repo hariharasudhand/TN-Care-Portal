@@ -1,4 +1,6 @@
 from django.urls import path, re_path
+from django.contrib.auth import views as auth_views
+from users import views as user_view
 from app import views
 
 urlpatterns = [
@@ -8,7 +10,8 @@ urlpatterns = [
     re_path(r'^.*\.html', views.gentella_html, name='gentella'),
 
     # The home page
-    path('', views.index, name='index'),
+    path('', auth_views.LoginView.as_view(template_name='users/login.html'), name='index'),
+    # path('', views.index, name='index'),
     path('', views.success, name='success'),
     path('home/', views.success, name='home'),
 ]

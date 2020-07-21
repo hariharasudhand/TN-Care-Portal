@@ -24,6 +24,6 @@ urlpatterns = [
     url(r'^app/', include('app.urls')),
     url(r'^', include('app.urls')),
     url(r'^users/', include('users.urls')),
-    url(r'^product/', include('product.urls')),
+    url(r'^question/', include('question.urls')),
     path('api/users/', include('users.api.urls', 'users_api')),
 ]
