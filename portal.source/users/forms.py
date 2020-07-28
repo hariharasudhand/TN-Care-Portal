@@ -1,9 +1,38 @@
 from django import forms
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
-from .models import Organization, Profile, RolePermission, Groups, MODULES
+from .models import Organization, Profile, RolePermission, Groups, MODULES, District, Zone, BMC
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
+
+class DistrictForm(forms.ModelForm):
+    class Meta:
+        model = District
+        fields = ['district_name']
+
+
+class ZoneForm(forms.ModelForm):
+    class Meta:
+        model = Zone
+        fields = ['zone_name', 'district']
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+            if self.instance:
+                self.fields['district'].queryset = District.objects.filter(status='ACTIVE')
+
+class BMCForm(forms.ModelForm):
+    class Meta:
+        model = BMC
+        fields = ['bmc_name', 'district', 'zone']
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+            if self.instance:
+                self.fields['district'].queryset = District.objects.filter(status='ACTIVE')
+                self.fields['zone'].queryset = Zone.objects.filter(status='ACTIVE')
 
 
 class ChangePassForm(UserCreationForm):
@@ -53,12 +82,34 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileAddForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['group']
+        fields = ['district', 'zone', 'bmc', 'group']
     def __init__(self, orgId, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
+        super(ProfileAddForm, self).__init__(*args, **kwargs)
+        self.fields['zone'].queryset = Zone.objects.none()
+        self.fields['bmc'].queryset = BMC.objects.none()
+        # this block of code helps to dynamically select zone data based on district selection starts
+        if 'district' in self.data:
+            try:
+                district_id = int(self.data.get('district'))
+                self.fields['zone'].queryset = Zone.objects.filter(district_id=district_id).order_by('zone_name')
+            except (ValueError, TypeError):
+                pass
+        elif self.instance.pk:
+            self.fields['zone'].queryset = self.instance.district.district_id_set.order_by('zone_name')
+        # this block of code helps to dynamically select zone data based on district selection ends
+        # this block of code helps to dynamically select bmc data based on zone selection starts
+        if 'zone' in self.data:
+            try:
+                zone_id = int(self.data.get('zone'))
+                self.fields['bmc'].queryset = BMC.objects.filter(bmc_id=bmc_id).order_by('bmc_name')
+            except (ValueError, TypeError):
+                pass
+        elif self.instance.pk:
+            self.fields['bmc'].queryset = self.instance.zone.zone_id_set.order_by('bmc_name')
+        # this block of code helps to dynamically select bmc data based on zone selection ends
         if self.instance:
             self.fields['group'].queryset = Groups.objects.filter(org=orgId).filter(status='ACTIVE')
+            self.fields['district'].queryset = District.objects.filter(status='ACTIVE')
 
 
 class ProfileUpdateForm(forms.ModelForm):

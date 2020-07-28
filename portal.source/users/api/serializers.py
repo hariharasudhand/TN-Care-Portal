@@ -4,8 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 from .models import Consumer
-from product.models import Product
-
+# from product.models import Product
 
 class ConsumerSerializer(serializers.ModelSerializer):
     class Meta:

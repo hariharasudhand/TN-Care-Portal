@@ -10,6 +10,8 @@ urlpatterns = [
     path('profile/<int:id>/update', user_view.profile_update, name='profile-update'),
     path('profile/<int:id>/delete', user_view.profile_delete, name='profile-delete'),
 
+    path('ajax/load-zone/', user_view.load_zone, name='ajax_load_zone'),
+    path('ajax/load-bmc/', user_view.load_bmc, name='ajax_load_bmc'),
 
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('success/', user_view.login_request, name='success'),
@@ -51,5 +53,18 @@ urlpatterns = [
     path('groups/<int:id>/update', user_view.group_update, name='groups-update'),
     path('groups/<int:id>/delete/', user_view.groups_cancel, name='groups-delete'),
 
+    # Groups links
+    path('district/', user_view.district_add, name='district'),
+    path('district/<int:id>/update', user_view.district_update, name='district-update'),
+    path('district/<int:id>/delete/', user_view.district_cancel, name='district-delete'),
 
+    # Groups links
+    path('zone/', user_view.zone_add, name='zone'),
+    path('zone/<int:id>/update', user_view.zone_update, name='zone-update'),
+    path('zone/<int:id>/delete/', user_view.zone_cancel, name='zone-delete'),
+
+    # Groups links
+    path('bmc/', user_view.bmc_add, name='bmc'),
+    path('bmc/<int:id>/update', user_view.bmc_update, name='bmc-update'),
+    path('bmc/<int:id>/delete/', user_view.bmc_cancel, name='bmc-delete'),
 ]
